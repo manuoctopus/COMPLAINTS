@@ -8,7 +8,7 @@ url = "https://raw.githubusercontent.com/manuoctopus/COMPLAINTS/main/cp00.xlsx"
 df = pd.read_excel(url)
 
 # Título de la aplicación
-st.title("Buscador de Categoría y Subtipo")
+st.title("Buscador de Complaint")
 
 # Ingreso de consulta
 consulta = st.text_input("Escribe tu palabra clave o frase:")
