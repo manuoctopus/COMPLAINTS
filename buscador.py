@@ -7,19 +7,19 @@ url = "https://raw.githubusercontent.com/manuoctopus/COMPLAINTS/main/cp00.xlsx"
 # Cargar el archivo Excel desde GitHub
 df = pd.read_excel(url)
 
-# Mostrar los primeros 5 registros (opcional)
-st.write("Datos cargados desde el archivo Excel:")
-st.write(df.head())
+# Título de la aplicación
+st.title("Buscador de Categoría y Subtipo")
 
-# Tu lógica de consulta y búsqueda en el DataFrame
-consulta = st.text_input("Escribe tu octo-consulta:")
+# Ingreso de consulta
+consulta = st.text_input("Escribe tu palabra clave o frase:")
 
 if consulta:
-    # Filtrar los resultados que coinciden con la consulta
+    # Filtrar los resultados que contienen la consulta en la columna 'Palabras Clave'
     resultados = df[df['Palabras Clave'].str.contains(consulta, case=False, na=False)]
 
     if not resultados.empty:
-        st.write("Categoría y Subtipo correspondiente:")
+        # Mostrar los resultados con las columnas 'Categoría' y 'Subtipo'
+        st.write("Resultados encontrados:")
         st.write(resultados[['Categoría', 'Subtipo']])
     else:
-        st.write("No se encontró coincidencia.")
+        st.write("No se encontró ninguna coincidencia.")
