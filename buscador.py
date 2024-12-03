@@ -1,31 +1,25 @@
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
-# Título de la aplicación
-st.title("Buscador de Categorías")
+# URL del archivo Excel en GitHub
+url = "https://raw.githubusercontent.com/manuoctopus/COMPLAINTS/main/cp00.xlsx"
 
-# Campo de entrada de texto para la consulta
-consulta = st.text_input("Escribe tu consulta:")
+# Cargar el archivo Excel desde GitHub
+df = pd.read_excel(url)
+
+# Mostrar los primeros 5 registros (opcional)
+st.write("Datos cargados desde el archivo Excel:")
+st.write(df.head())
+
+# Tu lógica de consulta y búsqueda en el DataFrame
+consulta = st.text_input("Escribe tu octo-consulta:")
 
 if consulta:
-    # Cargar el archivo Excel
-    excel_file = st.file_uploader("Sube tu archivo Excel", type=["xlsx", "xls"])
+    # Filtrar los resultados que coinciden con la consulta
+    resultados = df[df['Palabras Clave'].str.contains(consulta, case=False, na=False)]
 
-    if excel_file is not None:
-        # Leer el archivo Excel
-        df = pd.read_excel(excel_file)
-
-        # Buscar la consulta en las palabras clave (ajusta las columnas según tu archivo)
-        categoria_subtipo = df[df['Palabras Clave'].str.contains(consulta, case=False, na=False)]
-
-        # Mostrar el resultado
-        if not categoria_subtipo.empty:
-            st.write("Categoría y Subtipo encontrados:")
-            st.write(categoria_subtipo[['Categoría', 'Subtipo']])
-        else:
-            st.write("No se encontró coincidencia con la consulta.")
+    if not resultados.empty:
+        st.write("Categoría y Subtipo correspondiente:")
+        st.write(resultados[['Categoría', 'Subtipo']])
     else:
-        st.write("Por favor, sube un archivo Excel.")
-else:
-    st.write("Por favor, ingresa una consulta.")
-
+        st.write("No se encontró coincidencia.")
